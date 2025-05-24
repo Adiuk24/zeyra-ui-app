@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { callOpenAI } from './openai';
+import { sendMessage } from './services/index';
 import { speakAndAnimate } from './speechSync';
 import { analyzeSentiment, setMood } from './emotionState';
 import { logEmotion } from './emotionalMemory';
@@ -56,7 +56,8 @@ const ChatBox = () => {
     setInput('');
     setIsTyping(true);
     try {
-      const reply = await callOpenAI(prompt);
+      const replyObj = await sendMessage(prompt);
+      const reply = replyObj.message;
       const zeyraMood = await analyzeSentiment(reply);
       setMood(zeyraMood);
       logEmotion(reply, zeyraMood);

@@ -1,6 +1,6 @@
 import { initCameraVision } from './cameraVision.js';
 import { getActivePlugins } from './pluginLoader.server.js';
-import { autoUpgradeFromGitHub, autoUpgradeFromLLM } from './selfUpdater.js';
+// import { autoUpgradeFromGitHub, autoUpgradeFromLLM } from './selfUpdater.js'; // Node.js-only, removed for frontend compatibility
 
 // 🔊 Speak wrapper
 export function speakOnce(text) {
@@ -26,7 +26,7 @@ export async function enableSentientMode() {
 
   // 4. Load active plugins
   getActivePlugins().forEach(plugin => {
-    import(plugin.path).then(mod => {
+    import(/* @vite-ignore */ plugin.path).then(mod => {
       if (mod?.start) mod.start();
     });
   });
